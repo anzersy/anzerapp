@@ -11,9 +11,6 @@ import (
 
 var VERSION = "v0.0.0-dev"
 
-
-
-
 func main() {
 	app := cli.NewApp()
 	app.Name = "anzerapp"
@@ -47,11 +44,14 @@ func HandleResourceChange(event *events.Event, client *client.RancherClient) err
 //Identify the process which contained the core logic of communication with cattle.
 func TestEventStream(cattleURL, accessKey, secretKey string) error {
 	logrus.Info("Start to connect the Cattle.")
+
+	//initialize the event handler mapp
 	eventhandlermap := map[string]events.EventHandler{
 		"resource.change":	HandleResourceChange,
 		"ping":	func(e *events.Event, c *client.RancherClient) error {logrus.Info("Here we ping.");return  nil},
 	}
 
+	//Use event handle map and subscribe to cattle, and then establish the event stream to process the event.
 	router, err :=events.NewEventRouter("", 0, cattleURL, accessKey, secretKey, nil, eventhandlermap, "", 100, events.DefaultPingConfig)
 
 	if err != nil {
