@@ -38,7 +38,6 @@ func run(c *cli.Context) error {
 	return err
 }
 
-//Identify the handler which watched on resource.change event.
 func HandleResourceChange(event *events.Event, client *client.RancherClient) error {
 	logrus.Info("Start to handle the resourcechange event.")
 	logrus.Info(event)
@@ -47,7 +46,6 @@ func HandleResourceChange(event *events.Event, client *client.RancherClient) err
 
 
 
-//Identify the process which contained the core logic of communication with cattle.
 func TestEventStream(cattleURL, accessKey, secretKey string) error {
 	logrus.Info("Start to connect the Cattle.")
 
